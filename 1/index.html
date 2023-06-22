@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link rel="stylesheet" href="./css/main.css">
+
+</head>
+
+<body>
+    <div class="body">
+        <div class="container-1">
+            <div id="color-block-1"></div>
+            <label for="input-color">Введите цвет:</label>
+            <span>
+                #<input type="text" id="input-color" placeholder="FFFFFF" maxlength="6">
+            </span>
+        </div>
+    
+        <div class="container-2">
+            <div id="color-block-2"></div>
+            <label for="input-color">Выбирите цвет:</label>
+            <span>
+                <label>#fd12e6<input type="radio" id="color-1" name="radio-color"></label>
+                <label>#345679<input type="radio" id="color-2" name="radio-color"></label>
+                <label>#ff458d<input type="radio" id="color-3" name="radio-color"></label>
+                <label>#5aa66f<input type="radio" id="color-4" name="radio-color"></label>
+            </span>
+        </div>
+
+        <div class="container-3">
+            <div id="color-block-3"></div>
+            <label for="red-slider">Красный</label>
+            <input type="range" id="red-slider" name="color-range" min="0" max="255">
+            <label for="green-slider">Зеленый</label>
+            <input type ="range" id= "green-slider"name= "color-range"min ="0"value ="128"max ="255">
+            <label for ="blue-slider">Синий</label>
+            <input type = "range"id = "blue-slider"name = "color-range"min = 0 value = 64 max = 255>
+        </div>
+    </div>
+  <script src="./js/main.js"></script>
+</body>
+
+</html>
