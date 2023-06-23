@@ -1,0 +1,49 @@
+.dialog_winwows{
+    display: flex;
+    justify-content: center;
+}
+
+.left, .right{
+    width: 20%;
+    border: 2px solid black;
+}
+
+.middle{
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 50%;
+    border: 2px solid black;
+}
+
+.input-group>span{
+    display: none;
+    color: red;
+}
+
+.input-group.error>span{
+    display: block;
+}
+
+.input-group.error>input{
+    border: 1px solid red;
+}
+
+form{
+    display: flex;
+    justify-content: center;
+    padding: 2px;
+}
+
+table{
+    margin: 0 auto;
+}
+
+table td:first-child{
+    text-align: left;
+    width: 5%;
+}
+
+table td:last-child{
+    text-align: right;
+    width: 5%;
+}
