@@ -1,26 +1,26 @@
-const submit = document.getElementById('submit');
-const action = document.getElementById('action');
+const submitLeft = document.getElementById('submit_left');
+const actionLeft = document.getElementById('action_left');
 const table = document.getElementById('todotable');
 
-submit.addEventListener('click', function(e){
+submitLeft.addEventListener('click', function(e){
     e.preventDefault();
-    const text = action.value;
-    const inputGroup = document.getElementsByClassName('input-group')[0];
+    const text = actionLeft.value;
+    const inputGroupLeft = document.getElementsByClassName('input_group_left')[0];
 
     if(!text){
-        inputGroup.classList.add('error')
+        inputGroupLeft.classList.add('error')
         return;
     }
 
-    if(inputGroup.classList.contains('error')){
-        inputGroup.classList.remove('error');
+    if(inputGroupLeft.classList.contains('error')){
+        inputGroupLeft.classList.remove('error');
     }
 
-    addRow(text);
-    action.value = "";
+    addRowLeft(text);
+    actionLeft.value = "";
 })
 
-function addRow(text){
+function addRowLeft(text){
     let row = document.createElement('tr');
 
     let td1 = document.createElement('td');
@@ -29,8 +29,44 @@ function addRow(text){
 
     let td2 = document.createElement('td');
     td2.classList.add('text');
-    td2.innerText = text;
+    td2.innerText = "";
 
+    row.append(td1);
+    row.append(td2);
+    table.append(row);
+}
+
+const submitRight = document.getElementById('submit_right');
+const actionRight = document.getElementById('action_right');
+
+submitRight.addEventListener('click', function(e){
+    e.preventDefault();
+    const text = actionRight.value;
+    const inputGroupRight = document.getElementsByClassName('input_group_right')[0];
+
+    if(!text){
+        inputGroupRight.classList.add('error')
+        return;
+    }
+
+    if(inputGroupRight.classList.contains('error')){
+        inputGroupRight.classList.remove('error');
+    }
+
+    addRowRight(text);
+    actionRight.value = "";
+})
+
+function addRowRight(text){
+    let row = document.createElement('tr');
+
+    let td1 = document.createElement('td');
+    td1.classList.add('text');
+    td1.innerText = "";
+
+    let td2 = document.createElement('td');
+    td2.classList.add('text');
+    td2.innerText = text;
 
     row.append(td1);
     row.append(td2);

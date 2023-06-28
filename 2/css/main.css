@@ -15,16 +15,16 @@
     border: 2px solid black;
 }
 
-.input-group>span{
+.input_group_left>span, .input_group_right>span{
     display: none;
     color: red;
 }
 
-.input-group.error>span{
+.input_group_left.error>span, .input_group_right.error>span{
     display: block;
 }
 
-.input-group.error>input{
+.input_group_left.error>input, .input_group_right.error>input{
     border: 1px solid red;
 }
 
