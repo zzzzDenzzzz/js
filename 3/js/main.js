@@ -47,7 +47,7 @@ let timer =
     }
 };
 
-document.querySelector("#start-button").addEventListener("click",function()
+document.querySelector("#start-button").addEventListener("click", function()
 {
     timer.startTimer();
 });
