@@ -1,0 +1,16 @@
+#timer-input {
+    margin-right: 10px;
+  }
+
+  #start-button {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  #timer-output {
+    font-size: 24px;
+    margin-top: 10px;
+  }
