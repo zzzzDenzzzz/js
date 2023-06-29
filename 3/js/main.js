@@ -43,6 +43,8 @@ let timer =
         else
         {
             console.error("Пожалуйста, введите корректное значение времени.");
+            // Очищаем поле ввода времени
+            document.querySelector("#timer-input").value = "";
         }
     }
 };
