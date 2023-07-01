@@ -1,52 +1,38 @@
-table{
+#my-table{
     border-collapse: collapse;
     width: 100%;
-    border: 3px solid black;
 }
 
-th, td{
-    padding: 4px;
+#my-table th, #my-table td{
+    padding: 8px;
     text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
-th{
-    background: gray;
-    border-bottom: 2px solid black;
-}
-
-tr:nth-child(even){
-    background-color: #f2f2f2;
-}
-  
-.button{
-    padding-top: 5px;
-    padding-bottom: 5px;
-    cursor: pointer;     
-    background-color: #4CAF50; 
+#add-button{
+    background-color: green;
     color: white;
-    border: 2px solid black;
-    border-radius: 5px;  
-}
-   
-.text-input{
-    margin-bottom: 10px;  
-    padding: 5px;
-    border: 2px solid black;
-    border-radius: 5px;
+    padding: 5px 5px;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .delete-button{
-    padding-top: 5px;
-    padding-bottom: 5px;
-    cursor: pointer;     
-    background-color: red; 
+    background-color: red;
     color: white;
-    border: 2px solid black;
-    border-radius: 5px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: grab;
 }
-
-tfoot{
-    margin-top: 8px;
-    display: flex;
-    justify-content: center;
+  
+.input-container{
+    margin-bottom: 10px;        
+}
+ 
+.input-container input[type="text"]{
+    width: 200px;
+    height: 30 px;
+    border: 2px solid black;
+    padding: 5px 5px;
+    border-radius: 4px;
 }

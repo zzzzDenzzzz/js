@@ -1,102 +1,62 @@
-let button = document.getElementById("button");
+// Получение ссылок на элементы таблицы и кнопку
 let myTable = document.getElementById("my-table");
+let button = document.getElementById("add-button");
 
-window.onload = function()
+// Инициализация данных из localStorage или создание нового массива, если данных нет
+let tableData = JSON.parse(localStorage.getItem('tableData')) || [];
+
+// При загрузке страницы заполняем таблицу данными из localStorage, если они есть.
+for(let i = 0; i < tableData.length; i++)
 {
-    // Проверяем наличие сохраненных данных в localStorage
-    if (localStorage.getItem("tableData") != null)
-    {
-        let data = JSON.parse(localStorage.getItem("tableData"));
-        for (let i = 0; i < data.length; i++)
-        {
-            addRow(data[i]);
-        }
-    } 
-    else
-    { 
-        addRow("");
-    }
-    
-    button.addEventListener("click", function()
-    {
-        let secondColumnInput = document.getElementById("second-column-input");
-    
-        if(secondColumnInput.value != "")
-        {
-            // Добавление текста и новой строки таблицы
-            // Сохранение в localStorage
-            let tableData = [];
-            let rows = document.querySelectorAll("#my-table tbody tr");
-    
-            for(let i = 0; i < rows.length; i++)
-            {
-                let cells = rows[i].cells;
-                tableData.push(cells[1].textContent);
-            }
-    
-            tableData.push(secondColumnInput.value);
-    
-            localStorage.setItem("tableData", JSON.stringify(tableData));
-    
-            addRow(secondColumnInput.value);
-    
-            secondColumnInput.value = "";
-        } 
-        else
-        { 
-            // Удаление текста и строки из localStorage
-            let rowToRemove;
-    
-            for(let row of myTable.rows)
-            {
-                if(row.cells[1].textContent == secondColumnInput.value)
-                {
-                    rowToRemove = row;
-                    break;
-                }
-            }
-    
-            if(rowToRemove != null)
-            {
-                rowToRemove.remove();
-    
-                // Обновление данных в localStorage после удаления строки
-                let updatedTableData = [];
-    
-                for(let r of myTable.rows)
-                {
-                    updatedTableData.push(r.cells[1].textContent);
-                }
-    
-                localStorage.setItem("tableData", JSON.stringify(updatedTableData));
-            }
-      
-            secondColumnInput.value = "";
-        }
-    });
-};
-    
+    addRow(tableData[i]);
+}
+
+// Функция для добавления строки в таблицу
 function addRow(text)
 {
-    let newRow = document.createElement("tr");
-    
-    newRow.innerHTML = `<td>${text}</td><td><button class="delete-button">Удалить</button></td>`;
-    document.querySelector("#my-table tbody").appendChild(newRow);
-    
-    // Прикрепляем обработчик события на кнопку "Удалить"
-    newRow.querySelector(".delete-button").addEventListener("click", function()
+    let row = myTable.insertRow();
+    let cell1 = row.insertCell(0);
+    let cell2 = row.insertCell(1);
+
+    let textNode = document.createTextNode(text);
+    cell1.appendChild(textNode);
+
+    cell2.innerHTML = '<button class="delete-button" onclick="removeRow(this)">Delete</button>';
+}
+
+// Функция для удаления строки из таблицы
+function removeRow(button)
+{
+    let rowToRemove = button.parentNode.parentNode;
+
+    // Удаление строки из DOM и данных в localStorage после удаления строки 
+    if (rowToRemove)
     {
-        newRow.remove();
-      
+        myTable.deleteRow(rowToRemove.rowIndex);
+
         // Обновление данных в localStorage после удаления строки
         let updatedTableData = [];
-      
-        for (let i = myTable.rows.length - 1; i >= 0; i--)
+
+        for (let i = 1; i < myTable.rows.length; i++)
         {
-            let row = myTable.rows[i];
-            updatedTableData.push(row.cells[0].textContent);
+            let cellText = myTable.rows[i].cells[0].textContent;
+            updatedTableData.push(cellText);
         }
-      
-        localStorage.setItem("tableData", JSON.stringify(updatedTableData));
-    });
+
+        localStorage.setItem('tableData', JSON.stringify(updatedTableData));
+    }
 }
+
+// Добавляем обработчик события клика по кнопке "Add"
+button.addEventListener("click", function()
+{
+    let firstColumnInput = document.getElementById("first-column-input");
+
+    if(firstColumnInput && firstColumnInput.value !== "")
+    {
+        addRow(firstColumnInput.value);
+        tableData.push(firstColumnInput.value);
+        localStorage.setItem('tableData', JSON.stringify(tableData));
+        firstColumnInput.value = "";
+    }
+});
