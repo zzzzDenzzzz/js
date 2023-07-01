@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Table</title>
+
+  <style>
+    #my-table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #my-table th,
+    #my-table td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .delete-button {
+      background-color: red;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    
+   .input-container {
+       margin-bottom:10px;        
+   }
+   
+   .input-container input[type="text"]{
+       width :200px;  
+       height :30 px; 
+   }      
+ </style>
+
+</head>
+<body>
+
+<div class="input-container">
+   <input type="text" id="first-column-input" placeholder="Enter Text">
+   <button id="add-button">Add</button> 
+ </div>
+
+
+<table id="my-table">
+<thead>
+<tr><th>Column1</th><th>Action</th></tr>
+</thead>
+
+<tbody></tbody>
+
+<script>
+
+
+// Получение ссылок на элементы таблицы и кнопку
+var myTable = document.getElementById("my-table");
+var button = document.getElementById("add-button");
+
+// Инициализация данных из localStorage или создание нового массива, если данных нет
+var tableData = JSON.parse(localStorage.getItem('tableData')) || [];
+
+// Функция для добавления строки в таблицу
+function addRow(text) {
+ var row = myTable.insertRow();
+ var cell1 = row.insertCell(0);
+ var cell2 = row.insertCell(1);
+
+ var textNode = document.createTextNode(text);
+ cell1.appendChild(textNode);
+
+ cell2.innerHTML =
+   '<button class="delete-button" onclick="removeRow(this)">Delete</button>';
+}
+
+// Функция для удаления строки из таблицы
+function removeRow(button) {
+ var rowToRemove = button.parentNode.parentNode;
+
+ // Удаление строки из DOM и данных в localStorage после удаления строки 
+ if (rowToRemove) {
+   myTable.deleteRow(rowToRemove.rowIndex);
+
+   // Обновление данных в localStorage после удаления строки
+   var updatedTableData=[];
+
+   for (var i = 1; i < myTable.rows.length; i++) {
+     var cellText = myTable.rows[i].cells[0].textContent;
+     updatedTableData.push(cellText);
+   }
+
+  localStorage.setItem('tableData', JSON.stringify(updatedTableData));
+ }
+}
+
+// При загрузке страницы заполняем таблицу данными из localStorage, если они есть.
+for (var i=0; i<tableData.length; i++) {
+ addRow(tableData[i]);
+}
+
+// Добавляем обработчик события клика по кнопке "Add"
+button.addEventListener("click", function() {
+ var firstColumnInput=document.getElementById("first-column-input");
+
+if(firstColumnInput && firstColumnInput.value !== "") {
+  addRow(firstColumnInput.value);
+  tableData.push(firstColumnInput.value);
+  localStorage.setItem('tableData', JSON.stringify(tableData));
+  firstColumnInput.value="";
+}
+});
+
+</script>
+</body>
+</html>
