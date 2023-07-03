@@ -1,0 +1,38 @@
+.post{
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: justify;
+    border: 1px solid black;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.comments-box{
+    border: 1px solid black;
+    padding: 20px;
+    display: none;
+}
+
+.comment{
+    border-bottom: 1px solid black;
+}
+
+.post>.comments-box>.comment:last-child{
+    border-bottom: none;
+}
+
+.post>.comments-box>.comment:last-child>p{
+    margin-bottom: 0;
+}
+
+.post>.comments-box>.comment:first-child>h3{
+    margin-top: 0;
+}
+
+.comments_button{
+    text-align: center;
+    padding: 5px;
+    display: block;
+    cursor: pointer;
+    text-decoration: underline;
+}

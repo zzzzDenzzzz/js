@@ -1,0 +1,8 @@
+.album{
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: justify;
+    border: 1px solid black;
+    padding: 20px;
+    margin-bottom: 30px;
+}
