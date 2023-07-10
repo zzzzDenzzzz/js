@@ -1,0 +1,28 @@
+.treeview {
+    list-style: none;
+    padding-left: 20px;
+}
+  
+.treeview li {
+    position: relative;
+}
+  
+.treeview li:before {
+    content: "+";
+    position: absolute;
+    left: -15px;
+}
+  
+.treeview .active:before {
+    content: "-";
+}
+  
+.treeview ul {
+    display: none; 
+    margin-left: 15px; 
+    padding-left: .5em; 
+}
+
+.treeview li ul li:before {  
+    content: none; 
+}
