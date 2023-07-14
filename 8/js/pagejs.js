@@ -1,32 +1,47 @@
 const api = 'https://fakestoreapi.com';
 let products = [];
 
-function setProducts(array){
-    $.ajax({
-        url: api + '/products?limit=',        
-        dataType: 'json',         
-        success: function(products){   
-            products.forEach(product => {
-                array.push(product);
-            });
-        }
-    })
+function _setProducts(array){
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: api + '/products?limit=',        
+            dataType: 'json',         
+            success: function(response){   
+                response.forEach(product => {
+                    array.push(product);
+                });
+                resolve();
+            },
+            error: function(error){
+                reject(error);
+            }
+        });
+    });
 }
 
-setProducts(products)
-createHtml($('#_section-item-1'), products)
+_setProducts(products)
+  .then(() => {
+      _createHtml($('#_section-item-1'), products);
+  })
+  .catch((error) => {
+      console.error('Произошла ошибка:', error);
+});
 
-function createHtml(htmlElement, array)
+_createHtml($('#_section-item-1'), products)
+
+function _createHtml(htmlElement, array)
 {
-    $(htmlElement).append(createProductHtml(array));
+    array.forEach(element => {
+        $(htmlElement).append(_createProductHtml(element));
+    });
 }
 
-function createProductHtml(product){
+function _createProductHtml(array){
     return $(`
         <div class="page-content-items-item" id=''>
             <div class="section-items-item-photo">
                 <div class="section-items-item-photo-mainImg">
-                    <img src="${product.image}" alt="not found">
+                    <img src="${array.image}" alt="not found">
                 </div>
                 <div class="section-items-item-photo-discountImg">
                     <img src="./img/discount.png" alt="not found">
@@ -37,14 +52,14 @@ function createProductHtml(product){
             </div>
             <div class="section-items-item-price">
                 <div class="section-items-item-price-withCard">
-                    <h3>${product.price}</h3>
+                    <h3>${array.price}</h3>
                 </div>
             </div>
             <div class="section-items-item-description">
-                ${product.title}
+                ${array.title}
             </div>
             <div class="section-items-item-estimate">
-                ${getRating(product.rating.rate).prop('outerHTML')}
+                ${_getRating(array.rating.rate).prop('outerHTML')}
             </div>
             <div class="section-items-item-button">
                 В корзину
@@ -53,98 +68,100 @@ function createProductHtml(product){
     `)
 }
 
-function zeroRatingHtml()
+function _zeroRatingHtml()
 {
     return $(`
-    <div>
-        <img src="./img/starEmpty.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-    </div>
+        <div>
+            <img src="./img/starEmpty.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+        </div>
     `)
 }
 
-function oneRatingHtml()
+function _oneRatingHtml()
 {
     return $(`
-    <div>
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-    </div>
+        <div>
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+        </div>
     `)
 }
 
-function twoRatingHtml()
+function _twoRatingHtml()
 {
     return $(`
-    <div>
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-    </div>
+        <div>
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+        </div>
     `)
 }
 
-function threeRatingHtml()
+function _threeRatingHtml()
 {
     return $(`
-    <div>
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-    </div>
+        <div>
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+        </div>
     `)
 }
 
-function fourRatingHtml()
+function _fourRatingHtml()
 {
     return $(`
-    <div>
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/starEmpty.png" alt="not found">
-    </div>
+        <div>
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/starEmpty.png" alt="not found">
+        </div>
     `)
 }
 
-function fiveRatingHtml()
+function _fiveRatingHtml()
 {
     return $(`
-    <div>
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/StarFull.png" alt="not found">
-        <img src="./img/StarFull.png" alt="not found">
-    </div>
+        <div>
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/StarFull.png" alt="not found">
+            <img src="./img/StarFull.png" alt="not found">
+        </div>
     `)
 }
 
-function getRating(rating)
+function _getRating(rating)
 {
     switch (true) {
         case parseFloat(rating) < 1:
-            return zeroRatingHtml();
+            return _zeroRatingHtml();
         case parseFloat(rating) < 1.5:
-            return oneRatingHtml();
+            return _oneRatingHtml();
         case parseFloat(rating) < 2.5:
-            return twoRatingHtml();
+            return _twoRatingHtml();
         case parseFloat(rating) < 3.5:
-            return threeRatingHtml();
+            return _threeRatingHtml();
         case parseFloat(rating) < 4.5:
-            return fourRatingHtml();
+            return _fourRatingHtml();
         case parseFloat(rating) > 4.5:
-            return fourRatingHtml();
+            return _fourRatingHtml();
+        default:
+            return _fourRatingHtml();
     }
 };
