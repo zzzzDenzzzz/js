@@ -1,18 +1,25 @@
 const api = 'https://fakestoreapi.com';
+let products = [];
 
-function getProducts(element, limit = null){
+function setProducts(array){
     $.ajax({
-        url: api + '/products?limit=' + limit,        
+        url: api + '/products?limit=',        
         dataType: 'json',         
         success: function(products){   
             products.forEach(product => {
-                element.append(createProductHtml(product))
+                array.push(product);
             });
         }
     })
 }
 
-//getProducts($('#section-item-1'), 3)
+setProducts(products)
+createHtml($('#_section-item-1'), products)
+
+function createHtml(htmlElement, array)
+{
+    $(htmlElement).append(createProductHtml(array));
+}
 
 function createProductHtml(product){
     return $(`
@@ -45,44 +52,6 @@ function createProductHtml(product){
         </div>
     `)
 }
-
-$(document).ready(function() {
-    const productsContainer = $('.products-container');
-    
-    // Получаем товары и добавляем их на страницу
-    getProducts(productsContainer, 3);
-    
-     const paginationContainer = document.querySelector('.pagination-container');
-     /*
-     // Создаем HTML-код всех групп товаров
-     const productsHtml = createProductHtml(products);
-     
-     // Добавляем HTML-код на страницу
-     productsContainer.html(productsHtml);
-     */
-     // Разбиваем фрагменты HTML-кода по группам товаров
-     const productGroups = Array.from(document.querySelectorAll('.product-group'));
-     
-     // Создаем номера для каждой группы товаров и добавляем их в контейнер пагинации
-   for (let i = 0; i < productGroups.length; i++) {
-       const pageNumber = i + 1;
-       const paginationItem = document.createElement('span');
-       
-       paginationItem.textContent = pageNumber;
-       
-       // Добавляем обработчик события для отображения соответствующей группы товаров при нажатии на номер
-       paginationItem.addEventListener('click', () => {
-         productGroups.forEach(group => group.style.display = 'none');
-         productGroups[i].style.display = 'block';
-         
-         // Устанавливаем класс активного элемента пагинации
-         $(paginationItem).addClass('active').siblings().removeClass('active');
-       });
-       
-       // Добавляем номер в контейнер пагинации
-       paginationContainer.appendChild(paginationItem);
-   }
-});
 
 function zeroRatingHtml()
 {
