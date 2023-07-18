@@ -1,10 +1,11 @@
 const api = 'https://fakestoreapi.com';
 let products = [];
+let currentPage = 1;
 
 function _setProducts(array){
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: api + '/products?limit=',        
+            url: api + '/products?limit',        
             dataType: 'json',         
             success: function(response){   
                 response.forEach(product => {
@@ -20,21 +21,59 @@ function _setProducts(array){
 }
 
 _setProducts(products)
-  .then(() => {
-      _createHtml($('#_section-item-1'), products);
-  })
-  .catch((error) => {
-      console.error('Произошла ошибка:', error);
+    .then(() => {
+        _createHtml($('#_section-item-1'), products, 1);
+    })
+    .catch((error) => {
+        console.error('Произошла ошибка:', error);
 });
 
 _createHtml($('#_section-item-1'), products)
 
-function _createHtml(htmlElement, array)
+function _createHtml(htmlElement, array, page)
 {
-    array.forEach(element => {
-        $(htmlElement).append(_createProductHtml(element));
-    });
+    const startIndex = (page - 1) * 3;
+    const endIndex = startIndex + 3;
+
+    $(htmlElement).empty();
+
+    for (let i = startIndex; i < endIndex && i < array.length; i++) {
+        $(htmlElement).append(_createProductHtml(array[i]));
+    }
 }
+
+function _createPaginationButtons() {
+    const totalPages = Math.ceil(products.length / 3);
+
+    $('#pagination').empty();
+
+    for (let i = 1; i <= totalPages; i++) {
+        const button = $('<button>').text(i).click(() => handlePageChange(i));
+
+        if (i === currentPage) {
+            button.addClass('active');
+        }
+
+        $('#pagination').append(button);
+    }
+}
+
+function handlePageChange(page) {
+    currentPage = page;
+    _createHtml($('#_section-item-1'), products, currentPage);
+ 
+    $('.active').removeClass('active');
+    $(`#pagination button:nth-child(${currentPage})`).addClass('active');
+}
+
+_setProducts(products)
+    .then(() => {
+        _createHtml($('#_section-item-1'), products, currentPage);
+        _createPaginationButtons();
+    })
+    .catch((error) => {
+        console.error('Произошла ошибка:', error);
+});
 
 function _createProductHtml(array){
     return $(`
